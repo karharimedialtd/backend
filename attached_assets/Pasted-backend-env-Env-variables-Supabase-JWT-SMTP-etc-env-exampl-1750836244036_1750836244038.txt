@@ -1,0 +1,87 @@
+backend/
+├── .env                      # Env variables (Supabase, JWT, SMTP, etc.)
+├── .env.example              # Example template for devs
+├── package.json              # Dependencies and scripts
+├── tsconfig.json             # TypeScript config
+├── README.md                 # Project overview
+├── server.ts                 # Server entry point
+├── app.ts                    # Express app instance
+
+├── config/
+│   ├── env.ts                # Environment validation (zod or manual)
+│   ├── supabase.ts           # Supabase SDK client
+│   └── auth.ts               # JWT config, token helpers
+
+├── routes/
+│   ├── auth.routes.ts
+│   ├── user.routes.ts
+│   ├── admin.routes.ts
+│   ├── music.routes.ts
+│   ├── cms.routes.ts
+│   ├── royalties.routes.ts
+│   ├── payout.routes.ts
+│   ├── support.routes.ts
+│   ├── ai.routes.ts
+│   ├── dsp.routes.ts
+│   └── publishing.routes.ts
+
+├── controllers/
+│   ├── auth.controller.ts
+│   ├── user.controller.ts
+│   ├── admin.controller.ts
+│   ├── music.controller.ts
+│   ├── cms.controller.ts
+│   ├── royalties.controller.ts
+│   ├── payout.controller.ts
+│   ├── support.controller.ts
+│   ├── ai.controller.ts
+│   ├── dsp.controller.ts
+│   └── publishing.controller.ts
+
+├── services/
+│   ├── auth.service.ts
+│   ├── user.service.ts
+│   ├── admin.service.ts
+│   ├── music.service.ts
+│   ├── cms.service.ts
+│   ├── royalties.service.ts
+│   ├── payout.service.ts
+│   ├── support.service.ts
+│   ├── ai.service.ts
+│   ├── dsp.service.ts
+│   └── publishing.service.ts
+
+├── middlewares/
+│   ├── auth.middleware.ts       # JWT + session checks
+│   ├── role.middleware.ts       # Admin/user access logic
+│   ├── error.middleware.ts      # Global error handler
+│   └── upload.middleware.ts     # File/image/audio uploader
+
+├── models/
+│   ├── user.model.ts
+│   ├── admin.model.ts
+│   ├── music.model.ts
+│   ├── cms.model.ts
+│   ├── royalties.model.ts
+│   ├── payout.model.ts
+│   ├── support.model.ts
+│   ├── ai.model.ts
+│   ├── dsp.model.ts
+│   └── publishing.model.ts
+
+├── utils/
+│   ├── jwt.ts                   # Sign/verify tokens
+│   ├── logger.ts                # Unified logging system
+│   ├── mailer.ts                # SMTP/email utility
+│   ├── uploader.ts              # Handles local or cloud upload
+│   └── validator.ts             # Schema validation (e.g., zod/yup)
+
+├── types/
+│   ├── user.types.ts
+│   ├── auth.types.ts
+│   ├── music.types.ts
+│   ├── payout.types.ts
+│   └── index.d.ts              # Global types
+
+└── scripts/                    # Optional: useful CLI scripts (e.g. migration, testing)
+    └── seed.ts
