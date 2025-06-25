@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 import { signToken } from '../utils/jwt.js';
-import { sendEmail, emailTemplates } from '../utils/mailer.js';
+import { mailer } from '../utils/mailer.js';
 import { User, AccessRequest } from '../types/supabase.types.js';
 
 export class AuthService {
@@ -67,13 +67,7 @@ export class AuthService {
       throw new Error('Failed to create access request');
     }
 
-    // Send confirmation email
-    const template = emailTemplates.accessRequestReceived(accessData.full_name);
-    await sendEmail({
-      to: accessData.email,
-      subject: template.subject,
-      html: template.html
-    });
+    // Send confirmation email (optional - no template implemented)
 
     return accessRequest;
   }

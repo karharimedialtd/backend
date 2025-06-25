@@ -8,21 +8,13 @@ export const env = {
   PORT: parseInt(process.env.PORT || '5000', 10),
   
   // Supabase Configuration
-  SUPABASE_URL: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '',
-  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '',
+  SUPABASE_URL: process.env.SUPABASE_URL || '',
+  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || '',
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
   
   // JWT Configuration
-  JWT_SECRET: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production',
+  JWT_SECRET: process.env.JWT_SECRET || '',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
-  
-  // Frontend URLs for CORS
-  FRONTEND_URLS: [
-    'https://cmssingleaudio.com',
-    'https://singleaudiodelivery.com',
-    ...(process.env.REPLIT_DOMAINS ? process.env.REPLIT_DOMAINS.split(',') : []),
-    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://localhost:5000'] : [])
-  ],
   
   // Email Configuration
   SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
@@ -48,7 +40,7 @@ export const env = {
 } as const;
 
 // Validation
-const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY'];
+const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY', 'JWT_SECRET'];
 
 for (const envVar of requiredEnvVars) {
   if (!env[envVar as keyof typeof env]) {

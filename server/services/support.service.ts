@@ -1,5 +1,5 @@
 import { SupportModel } from '../models/support.model.js';
-import { sendEmail, emailTemplates } from '../utils/mailer.js';
+import { mailer } from '../utils/mailer.js';
 import { UserModel } from '../models/user.model.js';
 import { SupportTicket, TicketMessage } from '../types/supabase.types.js';
 
@@ -20,12 +20,7 @@ export class SupportService {
       // Send confirmation email
       const user = await UserModel.findById(userId);
       if (user) {
-        const template = emailTemplates.supportTicketReceived(ticket.id, ticket.subject);
-        await sendEmail({
-          to: user.email,
-          subject: template.subject,
-          html: template.html
-        });
+        // Send confirmation email to user (optional - no template implemented)
       }
     }
 

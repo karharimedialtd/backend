@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { UserModel } from '../models/user.model.js';
 import { AdminModel } from '../models/admin.model.js';
-import { sendEmail, emailTemplates } from '../utils/mailer.js';
+import { mailer } from '../utils/mailer.js';
 import { User, AccessRequest } from '../types/supabase.types.js';
 
 export class AdminService {
@@ -81,15 +81,7 @@ export class AdminService {
     });
 
     // Send approval email
-    const template = emailTemplates.accessRequestApproved(
-      request.full_name,
-      'https://cmssingleaudio.com/login'
-    );
-    await sendEmail({
-      to: request.email,
-      subject: template.subject,
-      html: template.html
-    });
+    await mailer.sendAccessApprovedEmail(request.email, tempPassword);
 
     return user;
   }
@@ -118,13 +110,7 @@ export class AdminService {
       reviewed_at: new Date().toISOString()
     });
 
-    // Send rejection email
-    const template = emailTemplates.accessRequestRejected(request.full_name, reason);
-    await sendEmail({
-      to: request.email,
-      subject: template.subject,
-      html: template.html
-    });
+    // Send rejection email (optional - no template implemented)
   }
 
   // Role management

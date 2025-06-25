@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, extractTokenFromHeader } from '../utils/jwt.js';
+import { verifyToken, extractTokenFromHeader, JWTPayload } from '../utils/jwt.js';
 import { supabase } from '../config/supabase.js';
 import { User } from '../types/supabase.types.js';
 
@@ -43,7 +43,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     }
 
     // Attach user to request
-    req.user = user as User;
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({

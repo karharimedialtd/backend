@@ -1,5 +1,5 @@
 import { RoyaltiesModel } from '../models/royalties.model.js';
-import { sendEmail, emailTemplates } from '../utils/mailer.js';
+import { mailer } from '../utils/mailer.js';
 import { UserModel } from '../models/user.model.js';
 import { PayoutRequest } from '../types/supabase.types.js';
 
@@ -55,16 +55,7 @@ export class PayoutService {
       const user = await UserModel.findById(payout.user_id);
       if (user) {
         // Send approval email
-        const template = emailTemplates.payoutApproved(
-          payout.amount,
-          payout.currency,
-          payout.method
-        );
-        await sendEmail({
-          to: user.email,
-          subject: template.subject,
-          html: template.html
-        });
+        await mailer.sendPayoutApprovedEmail(user.email, payout.amount, payout.currency);
       }
     }
 

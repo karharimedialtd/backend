@@ -51,9 +51,16 @@ app.use((req, res, next) => {
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({
-    status: 'ok',
+    status: 'OK',
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString()
   });
 });
 
