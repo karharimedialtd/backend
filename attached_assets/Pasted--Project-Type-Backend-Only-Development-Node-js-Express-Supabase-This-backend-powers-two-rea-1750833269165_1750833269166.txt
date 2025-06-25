@@ -1,0 +1,142 @@
+🔧 Project Type: Backend-Only Development (Node.js + Express + Supabase)
+This backend powers two real production frontend systems:
+
+User Frontend: https://cmssingleaudio.com
+
+Admin Frontend: https://singleaudiodelivery.com
+
+No dummy or local routes. No frontend code or assumptions. This backend must serve live, commercial use and all frontend API calls.
+
+🎯 Backend Purpose
+Secure authentication + access control
+
+YouTube CMS & Content ID tools
+
+Music distribution to DSPs (Spotify, TikTok, etc.)
+
+Royalty splits and payout system
+
+Publishing identity control
+
+AI-powered metadata and forecasting
+
+Ticket support system
+
+Full Admin control panel APIs
+
+Integrate directly with Supabase (NOT Drizzle ORM or Prisma)
+
+✅ REQUIRED: Backend Features
+1. 🔐 Authentication & Access Control
+Login-only system (no public signup)
+
+JWT tokens
+
+Role-based access (admin, user)
+
+Optional 2FA placeholder
+
+Access request system + admin approval
+
+API Endpoints
+
+POST /auth/login
+
+POST /auth/request-access
+
+GET /auth/me
+
+POST /auth/verify-token
+
+2. 👤 User Module
+Profile + channel tracking
+
+Linked channels overview
+
+Royalty earnings & payout request history
+
+3. 🛠️ Admin Module
+Approve users & access requests
+
+Assign roles (admin/user)
+
+View DSP delivery status, earnings, analytics
+
+4. 🎵 Music Distribution
+Upload tracks + metadata
+
+Add cover art
+
+Add collaborators + splits
+
+Select DSPs for delivery
+
+Track DSP delivery status
+
+Live DSPs (initial):
+
+YouTube Music
+
+YouTube Content ID
+
+Facebook Rights Manager
+
+Facebook Audio Library
+
+TikTok
+
+Audius
+
+SoundCloud
+
+Bandcamp
+
+5. 📺 YouTube CMS & Content ID
+Link YouTube channels via OAuth
+
+Upload reference files
+
+Manage claims and disputes
+
+See analytics (RPM, watch time, earnings)
+
+Rights policy controls
+
+6. 💸 Royalty & Payout System
+Earnings breakdown by asset
+
+Store splits + per-asset revenue
+
+Request payout (PayPal, Wise, Bank)
+
+Admin must approve payouts
+
+7. 🎼 Publishing Identity Tools
+Request publishing ID
+
+Add compositions
+
+Register ISWC/IPI
+
+Assign % ownership to collaborators
+
+8. 🧠 AI Tools (Backend-Only)
+Generate metadata from audio + prompt
+
+Generate cover art prompt (optional)
+
+Predictive revenue forecasting
+
+Suggest upload time (beta)
+
+9. 🛟 Support System
+User can submit support tickets
+
+Admin/mod can reply, mark resolved/closed
+
+10. 📤 DSP Delivery Manager
+Track delivery logs/status
+
+Admin can manage DSP integrations
+
+Handle failures + retries
