@@ -14,7 +14,7 @@ export const env = {
   
   // JWT Configuration
   JWT_SECRET: process.env.JWT_SECRET || '',
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1 hour',
   
   // Email Configuration
   SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
