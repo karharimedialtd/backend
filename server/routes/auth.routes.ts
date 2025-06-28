@@ -7,7 +7,7 @@ import { authenticate } from '../middlewares/auth.middleware.js';
 const router = Router();
 
 // Public routes
-router.post('/login', validate(schemas.login), AuthController.login);
+router.post('/admin/login', validate(schemas.login), AuthController.adminLogin);
 router.post('/request-access', validate(schemas.accessRequest), AuthController.requestAccess);
 router.post('/verify-token', AuthController.verifyToken);
 router.post('/request-password-reset', AuthController.requestPasswordReset);
