@@ -14,25 +14,14 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  // Default error values
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Internal Server Error';
   let status = err.status || 'error';
 
-  // Log error
-  logger.error(`${req.method} ${req.path} - ${statusCode}`, {
-    error: message,
-    stack: err.stack,
-    user: req.user?.id,
-    body: req.body,
-    query: req.query,
-    params: req.params
-  });
-
-  // Handle specific error types
+  // Handle known error types
   if (err.name === 'ValidationError') {
     statusCode = 400;
-    message = 'Validation Error';
+    message = 'Validation error';
   } else if (err.name === 'CastError') {
     statusCode = 400;
     message = 'Invalid data format';
@@ -50,19 +39,27 @@ export const errorMiddleware = (
     message = 'Invalid reference to related resource';
   }
 
-  // Send error response
+  // Log the error
+  logger.error(`${req.method} ${req.originalUrl} - ${statusCode}`, {
+    message,
+    stack: err.stack,
+    user: req.user?.id || 'Unauthenticated',
+    body: req.body,
+    query: req.query,
+    params: req.params
+  });
+
   const errorResponse: any = {
     success: false,
     error: status,
     message
   };
 
-  // Include stack trace in development
+  // Include stack in development
   if (env.NODE_ENV === 'development') {
     errorResponse.stack = err.stack;
   }
 
-  // Include request ID if available
   if (req.headers['x-request-id']) {
     errorResponse.requestId = req.headers['x-request-id'];
   }
@@ -70,16 +67,16 @@ export const errorMiddleware = (
   res.status(statusCode).json(errorResponse);
 };
 
-// Async error handler wrapper
+// Async error wrapper
 export const asyncHandler = (fn: Function) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
 
-// Not found middleware
+// 404 handler
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  const error = new Error(`Not found - ${req.originalUrl}`) as AppError;
+  const error = new Error(`Not Found - ${req.originalUrl}`) as AppError;
   error.statusCode = 404;
   next(error);
 };
