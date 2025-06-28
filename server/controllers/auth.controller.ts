@@ -3,12 +3,12 @@ import { AuthService } from '../services/auth.service.js';
 import { asyncHandler } from '../middlewares/error.middleware.js';
 
 export class AuthController {
-  // POST /api/auth/login
+  // POST /auth/login
   static login = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     const result = await AuthService.login(email, password);
-    
+
     if (!result) {
       return res.status(401).json({
         success: false,
@@ -27,15 +27,35 @@ export class AuthController {
     });
   });
 
-  // POST /api/auth/request-access
+  // ✅ POST /auth/admin/login
+  static adminLogin = asyncHandler(async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    const result = await AuthService.login(email, password);
+
+    if (!result || result.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Unauthorized',
+        message: 'Admin access only'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        user: result.user,
+        token: result.token
+      },
+      message: 'Admin login successful'
+    });
+  });
+
+  // POST /auth/request-access
   static requestAccess = asyncHandler(async (req: Request, res: Response) => {
     const { email, full_name, reason } = req.body;
 
-    const accessRequest = await AuthService.requestAccess({
-      email,
-      full_name,
-      reason
-    });
+    const accessRequest = await AuthService.requestAccess({ email, full_name, reason });
 
     res.status(201).json({
       success: true,
@@ -44,7 +64,7 @@ export class AuthController {
     });
   });
 
-  // GET /api/auth/me
+  // GET /auth/me
   static getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
       return res.status(401).json({
@@ -55,7 +75,7 @@ export class AuthController {
     }
 
     const user = await AuthService.getCurrentUser(req.user.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -70,7 +90,7 @@ export class AuthController {
     });
   });
 
-  // POST /api/auth/verify-token
+  // POST /auth/verify-token
   static verifyToken = asyncHandler(async (req: Request, res: Response) => {
     const { token } = req.body;
 
@@ -99,7 +119,7 @@ export class AuthController {
     });
   });
 
-  // POST /api/auth/change-password
+  // POST /auth/change-password
   static changePassword = asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
       return res.status(401).json({
@@ -118,7 +138,7 @@ export class AuthController {
     });
   });
 
-  // POST /api/auth/request-password-reset
+  // POST /auth/request-password-reset
   static requestPasswordReset = asyncHandler(async (req: Request, res: Response) => {
     const { email } = req.body;
 
@@ -130,10 +150,8 @@ export class AuthController {
     });
   });
 
-  // POST /api/auth/logout
-  static logout = asyncHandler(async (req: Request, res: Response) => {
-    // Since we're using stateless JWT, logout is handled client-side
-    // Server just acknowledges the logout request
+  // POST /auth/logout
+  static logout = asyncHandler(async (_req: Request, res: Response) => {
     res.json({
       success: true,
       message: 'Logged out successfully'
