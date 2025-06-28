@@ -7,13 +7,19 @@ export interface JWTPayload {
   role: 'admin' | 'user';
 }
 
+/**
+ * Signs a JWT for a user
+ */
 export const signToken = (payload: JWTPayload): string => {
   return jwt.sign(payload, env.JWT_SECRET, {
-    expiresIn: env.JWT_EXPIRES_IN,
+    expiresIn: env.JWT_EXPIRES_IN || '1h',
     issuer: 'single-audio-api'
   });
 };
 
+/**
+ * Verifies a JWT and returns the decoded payload
+ */
 export const verifyToken = (token: string): JWTPayload => {
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET) as JWTPayload;
@@ -23,9 +29,11 @@ export const verifyToken = (token: string): JWTPayload => {
   }
 };
 
+/**
+ * Extracts JWT token from Authorization header
+ */
 export const extractTokenFromHeader = (authHeader?: string): string | null => {
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-  return authHeader.substring(7);
+  if (!authHeader || typeof authHeader !== 'string') return null;
+  if (!authHeader.startsWith('Bearer ')) return null;
+  return authHeader.split(' ')[1];
 };
